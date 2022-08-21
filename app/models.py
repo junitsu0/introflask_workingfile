@@ -26,9 +26,9 @@ class User(db.Model, UserMixin):
         parent_call = super().get_id()
         return 'Hello ' + parent_call
 
-    @login.user_loader
-    def load_user(user_id):
-        return User.query.get(user_id)
+@login.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

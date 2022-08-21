@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
-from app.forms import SignUpForm, PostForm
+from app.forms import SignUpForm, PostForm, LoginForm
 from app.models import User, Post
 
 
@@ -14,7 +14,7 @@ def index():
     return render_template('index.html', user=user_info, colors=colors)
 
 
-@app.route('/signup')
+@app.route('/signup', methods=["GET", "POST"])
 def signup():
     form = SignUpForm()
     # if the form is submitted and all the data is valid
@@ -47,6 +47,11 @@ def create():
         flash(f'{new_post.title} has been created.', 'secondary')
         # Redirect back to home page
         return redirect(url_for('index'))
-        
+
 
     return render_template('createpost.html', form=form)
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    return render_template('login.html', form=form)
