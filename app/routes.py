@@ -7,12 +7,8 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 def index():
-    user_info = {
-        'username': 'brians',
-        'email': 'brians@codingtemple.com'
-    }
-    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-    return render_template('index.html', user=user_info, colors=colors)
+    posts = Post.query.all()
+    return render_template('index.html', posts=posts)
 
 
 @app.route('/signup', methods=["GET", "POST"])
