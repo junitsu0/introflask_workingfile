@@ -9,7 +9,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), nullable=False, unique=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
-    data_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __init__(self, **kwargs):
@@ -37,7 +37,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     body = db.Column(db.String(50), nullable=False)
-    data_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) #SQL equivalent = FOREIGN KEY(user_id) REFERENCES user(id)
 
     def __init__(self, **kwargs):
@@ -53,3 +53,8 @@ class Post(db.Model):
             if key in {'title', 'body'}:
                 setattr(self, key, value)
         db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        
